@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inputBox</title>
+    <style>
+        body {
+            display: grid;
+            width: 100vw;
+            height: 100vh;
+            place-items: center;
+        }
+
+        .container {
+            width: 30%;
+            min-height: 200px;
+            background-color: rgb(211, 209, 209);
+            padding: 20px;
+        }
+        .wrapper{
+            display: flex;
+            flex-direction: row;
+        }
+
+        #text1 {
+            width: 85%;
+            height: 30px;
+        }
+
+        button {
+            width: 8%;
+            height: 33px;
+            font-size: 20px;
+            margin-left: 5px;
+            text-align: center;
+        }
+
+        .icon {
+            width: 10px;
+            height: 15px;
+            background: red;
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .line-through {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <input id="text1" type="text" placeholder="Enter Something">
+            <button id="plus" onclick="addElement()">+</button>
+
+        </div>
+        <ul id="new">
+        </ul>
+    </div>
+    <script>
+        const plusButton = document.getElementById("plus");
+        const input = document.getElementById("text1");
+        const newtext = document.getElementById("new");
+
+        plusButton.addEventListener('click', () => {
+            document.querySelector("input").value = "";
+        });
+
+        let number = 0;
+        function addElement(e) {
+            var inputValue = input.value;
+            var newLi = document.createElement("li");
+            newLi.dataset.key = number + '';
+
+            if (inputValue !== '') {
+                newLi.textContent = inputValue;
+            }
+            else {
+                return;
+            }
+            console.log(" new list", inputValue);
+            newLi.onclick = strikeFun;
+
+            const newicon = document.createElement("div");
+            newicon.classList.add("icon");
+            newicon.dataset.key = number + '';
+            newicon.onclick = Deletefun;
+            number++;
+            newLi.appendChild(newicon);
+
+            newtext.appendChild(newLi);
+        }
+        function Deletefun(e) {
+            const clickedKey = e.target.dataset.key;
+            const allLi = document.querySelectorAll("li");
+            const liArray = [...allLi];
+
+            for (let li of liArray) {
+                const keyOfli = li.dataset.key;
+                if (keyOfli === clickedKey) {
+                    console.log('same key', clickedKey)
+                    li.remove();
+                }
+            }
+        }
+        function strikeFun(e) {
+            const letter = e.target;
+            letter.classList.toggle("line-through");
+        }
+
+
+    </script>
+</body>
+
+</html>
